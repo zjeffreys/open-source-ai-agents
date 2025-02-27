@@ -31,11 +31,19 @@ const ADAComplianceChecker = () => {
         setError(null);
         
         try {
-            // const response = await fetch(`http://localhost:8000/agents/check-accessibility/?url=${encodeURIComponent(url)}`);
-            const response = await fetch(`https://q7jhb37m6m6t3zklx544dnypxa0hxyag.lambda-url.us-west-2.on.aws/agents/check-accessibility/?url=${encodeURIComponent(url)}`);
+            // const response = await fetch(`http://localhost:8000/agents/check-accessibility/`, {
+                const response = await fetch(`https://q7jhb37m6m6t3zklx544dnypxa0hxyag.lambda-url.us-west-2.on.aws/agents/check-accessibility/?url=${encodeURIComponent(url)}`, {
 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: url })
+            });
+            console.log("Sending response to Lambda function");
+            
             const data = await response.json();
-
+    
             if (data.error) throw new Error(data.error);
             setReport(data);
         } catch (err) {
